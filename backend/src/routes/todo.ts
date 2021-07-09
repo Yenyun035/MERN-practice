@@ -33,10 +33,10 @@ const TodoRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
         }
     })
 
-    server.put<{Params: IdParam}>('/todos', opts, async(request, reply) => {
+    server.put<{Params: IdParam}>('/todos/:id', opts, async(request, reply) => {
         try {
             const id = request.params.id;
-            const todoBody: ITodo = request.body as ITodo      
+            const todoBody = request.body as ITodo      
             const todo: ITodo | null = await todoRepo.updateTodo(id,todoBody)
             if(todo) {
                 return reply.status(200).send({todo})
@@ -49,7 +49,7 @@ const TodoRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
         }
     })
 
-    server.delete<{Params: IdParam}>('/todos', opts, async(request, reply) => {
+    server.delete<{Params: IdParam}>('/todos/:id', opts, async(request, reply) => {
         try {
             const id = request.params.id
             const todo: ITodo | null = await todoRepo.deleteTodo(id)

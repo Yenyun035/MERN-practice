@@ -21,7 +21,7 @@ const addTodo = async (todoBody: ITodo): Promise<AxiosResponse<ITodo>> => {
         const todo = await axios.post('/api/todos', newTodo)
         return todo
     } catch(error) {
-        console.error(`POST /api/todos/${error}`)
+        console.error(`POST /api/todos Error: ${error}`)
         throw new Error(error)
     } 
 }
@@ -29,7 +29,11 @@ const addTodo = async (todoBody: ITodo): Promise<AxiosResponse<ITodo>> => {
 const updateTodo = async (todoBody: ITodo): Promise<AxiosResponse<ITodo>> => {
 // TODO: Should call PUT endpoint
     try {
-        const todo = await axios.put(`api/todos/${todoBody._id}`, todoBody)
+        const newTodo = {
+            ...todoBody,
+            status: true
+        }
+        const todo = await axios.put(`api/todos/${todoBody._id}`, newTodo)
         return todo
     } catch(error) {
         console.error(`PUT /api/todos/${todoBody._id} Error: ${error}`)
