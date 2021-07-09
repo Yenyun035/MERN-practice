@@ -44,10 +44,22 @@ describe('Form test', () => {
                 status: false
             }
         })
-
         expect(response.statusCode).toBe(201)
         const res: { todo: ITodo} = JSON.parse(response.body)
         expect(res.todo.name).toBe('clean my desk')
+        expect(res.todo.description).toBe('hhh')
+        expect(res.todo.status).toBe(false)
 
+        //test if add successfully with get
+        const getResponse = await server.inject({ 
+            method: 'GET',
+            url: '/api/todos'
+        })
+        expect(getResponse.statusCode).toBe(200)
+        const res2: { todos: Array<ITodo> } = JSON.parse(getResponse.body)
+        expect(res2.todos.length).toBe(1)
+        expect(res2.todos[0].name).toBe('clean my desk')
+        expect(res2.todos[0].description).toBe('hhh')
+        expect(res2.todos[0].status).toBe(false)
     })
 })
